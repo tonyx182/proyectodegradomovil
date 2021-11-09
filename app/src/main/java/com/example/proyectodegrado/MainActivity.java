@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         cardBuscar = findViewById(R.id.cardBuscar);
-        cardConfigurar = findViewById(R.id.cardConfigurar);
         cardCerar = findViewById(R.id.cardCerrar);
 
         cardBuscar.setOnClickListener(new View.OnClickListener() {
@@ -31,12 +30,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
                 //finish();
-            }
-        });
-        cardConfigurar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
         cardCerar.setOnClickListener(new View.OnClickListener() {
