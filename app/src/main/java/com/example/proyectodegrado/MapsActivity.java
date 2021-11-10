@@ -1,26 +1,15 @@
 package com.example.proyectodegrado;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -30,6 +19,11 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,6 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.proyectodegrado.api.RetrofitClient;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,9 +48,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -71,13 +64,10 @@ import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.gson.Gson;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 import com.skyfishjy.library.RippleBackground;
 
-import org.chromium.base.task.AsyncTask;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,6 +76,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -136,7 +131,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         btnSeleccionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(nMap != null){
+                if (nMap != null) {
                     double myLat = nMap.getCameraPosition().target.latitude;
                     double myLng = nMap.getCameraPosition().target.longitude;
                     latDestino = myLat;
@@ -301,28 +296,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    private void dibujarRuta(String URL){
+    private void dibujarRuta(String URL) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 ArrayList points = null;
                 PolylineOptions lineOptions = null;
                 MarkerOptions markerOptions = new MarkerOptions();
-                if(!response.isEmpty()){
+                if (!response.isEmpty()) {
                     try {
                         DirectionsJSONParser directions = new DirectionsJSONParser();
                         JSONObject respuesta = new JSONObject(response);
                         Log.e("TAG", "onResponse: " + respuesta);
-                        List<List<HashMap<String,String>>> routes = directions.parse(respuesta);
+                        List<List<HashMap<String, String>>> routes = directions.parse(respuesta);
 
                         for (int i = 0; i < routes.size(); i++) {
                             points = new ArrayList();
                             lineOptions = new PolylineOptions();
 
-                            List<HashMap<String,String>> path = routes.get(i);
+                            List<HashMap<String, String>> path = routes.get(i);
 
                             for (int j = 0; j < path.size(); j++) {
-                                HashMap<String,String> point = path.get(j);
+                                HashMap<String, String> point = path.get(j);
 
                                 double lat = Double.parseDouble(point.get("lat"));
                                 double lng = Double.parseDouble(point.get("lng"));
@@ -340,12 +335,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 // Drawing polyline in the Google Map for the i-th route
                         nMap.addPolyline(lineOptions);
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         Log.e("TAG", "onResponse: " + e);
                     }
 
-                }else{
+                } else {
                     Toast.makeText(MapsActivity.this, "Usuario y/o Contraseña Incorrectos", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -354,7 +348,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(MapsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
-        }){
+        }) {
 
         };
 
@@ -375,7 +369,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
             layoutParams.addRule(RelativeLayout.ALIGN_BOTTOM, RelativeLayout.TRUE);
-            layoutParams.setMargins(0,0,40,180);
+            layoutParams.setMargins(0, 0, 40, 180);
         }
 
         LocationRequest locationRequest = LocationRequest.create();
@@ -497,38 +491,61 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    private void solicitarTaxi(String URL){
+    private void solicitarTaxi(String URL) {
         SharedPreferences preferences = getSharedPreferences("preferenciasLogin", Context.MODE_PRIVATE);
         idUsuario = preferences.getInt("idUsuario", 0);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("TAG", "onResponse: " + response );
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MapsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> parametros = new HashMap<String,String>();
-                parametros.put("idUsuario", String.valueOf(idUsuario));
-                parametros.put("latitudOrigen", String.valueOf(latOrigen));
-                parametros.put("longitudOrigen", String.valueOf(longOrigen));
-                parametros.put("latitudDestino", String.valueOf(latDestino));
-                parametros.put("longitudDestino", String.valueOf(longDestino));
-                return parametros;
-            }
-        };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+        RequestBody idUser = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(idUsuario));
+        RequestBody latOri = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(latOrigen));
+        RequestBody lngOri = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(longOrigen));
+        RequestBody latDes = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(latDestino));
+        RequestBody lngDes = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(longDestino));
+
+        RetrofitClient client = new RetrofitClient();
+        Call call = client.service.solicitarViaje(idUser, latOri, lngOri, latDes, lngDes);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, retrofit2.Response response) {
+                Log.e("TAG", "onResponse: " + response.toString());
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("TAG", "onFailure: " + t);
+            }
+        });
+
+
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                Log.e("TAG", "onResponse: " + response);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(MapsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        }) {
+//            @Nullable
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> parametros = new HashMap<String, String>();
+//                parametros.put("idUsuario", String.valueOf(idUsuario));
+//                parametros.put("latitudOrigen", String.valueOf(latOrigen));
+//                parametros.put("longitudOrigen", String.valueOf(longOrigen));
+//                parametros.put("latitudDestino", String.valueOf(latDestino));
+//                parametros.put("longitudDestino", String.valueOf(longDestino));
+//                return parametros;
+//            }
+//        };
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        requestQueue.add(stringRequest);
     }
 
-    public void volleyPost(){
+    public void volleyPost() {
         String postUrl = "http://localhost/codeigniter/proyectodegrado/index.php/restserver/solicitar";
         SharedPreferences preferences = getSharedPreferences("preferenciasLogin", Context.MODE_PRIVATE);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
