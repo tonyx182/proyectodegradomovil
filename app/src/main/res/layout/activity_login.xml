@@ -76,7 +76,8 @@
                 android:layout_marginTop="25dp"
                 android:text="¿Has olvidado tu contraseña?"
                 android:textAlignment="center"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:visibility="invisible"/>
         </LinearLayout>
 
         <LinearLayout
@@ -118,7 +119,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnIngresar2"
+                android:id="@+id/btnCrear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"

@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -64,6 +66,7 @@ import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.gson.Gson;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 import com.skyfishjy.library.RippleBackground;
@@ -93,6 +96,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationCallback locationCallback;
 
     int idUsuario;
+    public String descripcion;
+    ResponseSolicitud mensaje;
 
     double latOrigen;
     double longOrigen;
@@ -154,15 +159,29 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(MapsActivity.this);
                 alertDialog.setTitle("Confirmar");
-                alertDialog.setMessage("Esta seguro de seleccionar el destino..??");
+                alertDialog.setMessage("Esta seguro de seleccionar el destino..?? " + "\n" + "\n" + "Ingrese una breve descripción");
+
+                final EditText input = new EditText(MapsActivity.this);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertDialog.setView(input);
+                alertDialog.setIcon(R.drawable.ic_confirmar);
+
                 alertDialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        solicitarTaxi("http://localhost/codeigniter/proyectodegrado/index.php/restserver/solicitar");
-                        //volleyPost();
-                        dialog.dismiss();
-                        Toast.makeText(MapsActivity.this, "Estamos buscando un taxi para enviarle a su ubicación...", Toast.LENGTH_SHORT).show();
-                        finish();
+                        descripcion = input.getText().toString();
+                        if (!descripcion.isEmpty()) {
+                            solicitarTaxi("http://192.168.1.2/codeigniter/proyectodegrado/index.php/restserver/solicitar");
+                            //volleyPost();
+                            dialog.dismiss();
+                            Toast.makeText(MapsActivity.this, "Estamos buscando un taxi para enviarle a su ubicación...", Toast.LENGTH_LONG).show();
+                            finish();
+                        } else {
+                            Toast.makeText(MapsActivity.this, "Debe ingresar una descripcion", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 alertDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -463,6 +482,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 nMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                                 latOrigen = mLastKnownLocation.getLatitude();
                                 longOrigen = mLastKnownLocation.getLongitude();
+                                Log.e("TAG", "onSuccess: " + mLastKnownLocation.getLatitude() + ", " + mLastKnownLocation.getLongitude());
                             } else {
                                 LocationRequest locationRequest = LocationRequest.create();
                                 locationRequest.setInterval(10000);
@@ -500,9 +520,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         RequestBody lngOri = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(longOrigen));
         RequestBody latDes = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(latDestino));
         RequestBody lngDes = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(longDestino));
+        RequestBody desc = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(descripcion));
 
         RetrofitClient client = new RetrofitClient();
-        Call call = client.service.solicitarViaje(idUser, latOri, lngOri, latDes, lngDes);
+        Call call = client.service.solicitarViaje(idUser, latOri, lngOri, latDes, lngDes, desc);
 
         call.enqueue(new Callback() {
             @Override

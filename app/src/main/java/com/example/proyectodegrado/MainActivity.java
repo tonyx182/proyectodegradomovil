@@ -13,7 +13,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     CardView cardBuscar;
-    CardView cardConfigurar;
+    CardView cardHistorial;
     CardView cardCerar;
 
     @Override
@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         cardBuscar = findViewById(R.id.cardBuscar);
+        cardHistorial = findViewById(R.id.cardHistorial);
         cardCerar = findViewById(R.id.cardCerrar);
 
         cardBuscar.setOnClickListener(new View.OnClickListener() {
@@ -30,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
                 //finish();
+            }
+        });
+        cardHistorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HistorialActivityCliente.class);
+                startActivity(intent);
             }
         });
         cardCerar.setOnClickListener(new View.OnClickListener() {

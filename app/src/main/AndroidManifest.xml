@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.proyectodegrado">
+    package="com.example.proyectodegrado" >
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +18,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoDeGrado"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true" >
+        <activity
+            android:name=".MapsActivityHistorial"
+            android:exported="false" />
+        <activity
+            android:name=".HistorialActivityTaxista"
+            android:exported="false" />
+        <activity
+            android:name=".HistorialActivityCliente"
+            android:exported="false" />
+        <activity
+            android:name=".MapsActivityTaxista"
+            android:exported="false" />
         <activity
             android:name=".SolicitudesActivity"
             android:exported="false" />
@@ -49,7 +60,7 @@
             android:exported="true" />
         <activity
             android:name=".PresentacionActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

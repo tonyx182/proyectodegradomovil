@@ -12,4 +12,3 @@ class Data {
     public String segundoAplellido;
     public int idRol;
 }
-

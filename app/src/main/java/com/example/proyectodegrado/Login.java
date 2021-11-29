@@ -3,6 +3,7 @@ package com.example.proyectodegrado;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,8 @@ public class Login extends AppCompatActivity {
 
     EditText usuario, password;
     Button btnIngresar;
+    Button btnCrear;
+    String url;
     String user, contrasenia;
     ResponseLogin data;
     public int idUsuario;
@@ -40,6 +43,8 @@ public class Login extends AppCompatActivity {
         usuario=findViewById(R.id.txtEmail);
         password=findViewById(R.id.txtPassword);
         btnIngresar=findViewById(R.id.btnIngresar);
+        btnCrear=findViewById(R.id.btnCrear);
+        url = "http://192.168.1.2/codeigniter/proyectodegrado/index.php/usuario/agregarCliente";
 
         recuperarPreferencias();
 
@@ -49,10 +54,19 @@ public class Login extends AppCompatActivity {
                 user = usuario.getText().toString();
                 contrasenia = password.getText().toString();
                 if (!user.isEmpty() && !contrasenia.isEmpty()){
-                    validarLogin("http://192.168.1.5/codeigniter/proyectodegrado/index.php/restserver/login");
+                    validarLogin("http://192.168.1.2/codeigniter/proyectodegrado/index.php/restserver/login");
                 }else {
                     Toast.makeText(Login.this, "Debe Ingresar sus Datos", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        btnCrear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
         });
     }
@@ -110,6 +124,7 @@ public class Login extends AppCompatActivity {
         editor.putString("userName",user);
         editor.putString("password",contrasenia);
         editor.putInt("idUsuario",data.data.idUsuario);
+        editor.putInt("idRol",data.data.idRol);
         editor.putBoolean("sesion", true);
         editor.commit();
     }

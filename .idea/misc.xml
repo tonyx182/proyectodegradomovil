@@ -13,13 +13,21 @@
         <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/drawable/ic_location_taxi.xml" value="0.3828125" />
         <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/drawable/ic_log_out.xml" value="0.3828125" />
         <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/drawable/ic_pngegg.xml" value="0.3828125" />
+        <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_historial_cliente.xml" value="0.35190217391304346" />
+        <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_historial_taxista.xml" value="0.35190217391304346" />
         <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_login.xml" value="0.28940217391304346" />
         <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_main_taxista.xml" value="0.28940217391304346" />
         <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_maps.xml" value="0.276268115942029" />
         <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_maps2.xml" value="0.2694746376811594" />
+        <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_maps_historial.xml" value="0.2328125" />
+        <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_maps_taxista.xml" value="0.2546875" />
         <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_presentacion.xml" value="0.28940217391304346" />
-        <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_solicitudes.xml" value="0.190625" />
+        <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/activity_solicitudes.xml" value="0.25" />
+        <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/date_picker_activity.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/main_fragment.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/text_row_item.xml" value="0.25677083333333334" />
+        <entry key="..\:/Users/corra/AndroidStudioProjects/ProyectoDeGrado/app/src/main/res/layout/text_row_item_taxista.xml" value="0.2328125" />
       </map>
     </option>
   </component>

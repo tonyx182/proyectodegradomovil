@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/cut_card_background"
-    tools:context=".SolicitudesActivity">
+    tools:context=".HistorialActivityTaxista">
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="Lista de Servicios Pendientes"
+        android:text="Historial de Viajes Realizados"
         android:gravity="center"
         android:textSize="24dp"
         android:textStyle="bold"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/vistaSolicitudes"
+        android:id="@+id/vistaHistorialTaxista"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/textView2"
@@ -26,6 +26,5 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp" />
-
 
 </RelativeLayout>

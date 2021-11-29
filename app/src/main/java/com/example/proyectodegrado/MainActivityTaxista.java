@@ -12,6 +12,7 @@ import android.view.View;
 public class MainActivityTaxista extends AppCompatActivity {
 
     CardView cardCarreras;
+    CardView cardHistorial;
     CardView cardCerar;
 
     @Override
@@ -20,12 +21,21 @@ public class MainActivityTaxista extends AppCompatActivity {
         setContentView(R.layout.activity_main_taxista);
 
         cardCarreras = findViewById(R.id.cardCarreras);
+        cardHistorial = findViewById(R.id.cardHistorial);
         cardCerar = findViewById(R.id.cardCerrar);
 
         cardCarreras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), SolicitudesActivity.class);
+                startActivity(intent);
+            }
+        });
+        cardHistorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HistorialActivityTaxista.class);
+                startActivity(intent);
             }
         });
         cardCerar.setOnClickListener(new View.OnClickListener() {

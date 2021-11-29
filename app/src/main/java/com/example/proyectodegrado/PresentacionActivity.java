@@ -14,6 +14,7 @@ public class PresentacionActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,23 @@ public class PresentacionActivity extends AppCompatActivity {
             public void run() {
                 SharedPreferences preferences = getSharedPreferences("preferenciasLogin", Context.MODE_PRIVATE);
                 boolean sesion = preferences.getBoolean("sesion", false);
-                if (sesion){
+                int idRol = preferences.getInt("idRol", -1);
+                Intent intent;
+                switch (idRol) {
+                    case 2: intent = new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case 3: intent = new Intent(getApplicationContext(),MainActivityTaxista.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    default: intent = new Intent(getApplicationContext(), com.example.proyectodegrado.Login.class);
+                        startActivity(intent);
+                        finish();
+                }
+
+                /*if (sesion){
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -34,7 +51,7 @@ public class PresentacionActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), com.example.proyectodegrado.Login.class);
                     startActivity(intent);
                     finish();
-                }
+                }*/
             }
         }, 2000);
     }
